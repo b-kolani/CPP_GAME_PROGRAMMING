@@ -161,15 +161,13 @@ Version moderne du classique Space Invaders.
 
 ```text
 .
-├── cpp_basics/
-├── sfml_introduction/
-├── timber/
-├── pong/
-├── zombie_arena/
-├── thomas_was_late/
-├── space_invaders/
-├── assets/
-├── docs/
+├── Chapters/
+├── SFML/
+├── Timber/ (WOP)
+├── Pong/
+├── Zombie_Arena/
+├── Thomas_Was_Late/
+├── Space_Invaders/
 └── README.md
 ```
 
@@ -183,6 +181,8 @@ Version moderne du classique Space Invaders.
 
 git clone https://github.com/<b-kolani>/CPP_GAME_PROGRAMMING.git
 cd CPP_GAME_PROGRAMMING.git
+Exemple:
+cd Timber
 ```
 
 ### Installer SFML
@@ -191,12 +191,9 @@ Consultez la documentation officielle de SFML pour votre système d'exploitation
 
 ### Compiler
 
-Exemple avec CMake :
+Exemple avec Make :
 
 ```bash
-mkdir build
-cd build
-cmake ..
 make
 ```
 
