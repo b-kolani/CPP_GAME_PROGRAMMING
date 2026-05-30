@@ -1,3 +1,13 @@
+# Exécutables
+a.out
+*.out
+*.exe
 
-*.out/
-*.o/
+# Objets
+*.o
+
+# VS Code
+.vscode/
+
+# CLion
+.idea/
