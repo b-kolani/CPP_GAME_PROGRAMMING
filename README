@@ -1,0 +1,244 @@
+# Game Programming with C++ & SFML
+
+## 🎮 Description
+
+Ce dépôt documente mon parcours d'apprentissage du développement de jeux vidéo en **C++** avec la bibliothèque **SFML (Simple and Fast Multimedia Library)**.
+
+L'objectif est de construire progressivement les compétences nécessaires à la création de jeux 2D en commençant par les fondamentaux du C++, puis en découvrant les concepts essentiels du game development :
+
+* Programmation orientée objet
+* Gestion de la mémoire
+* Boucle de jeu (Game Loop)
+* Gestion des événements
+* Animations
+* Détection de collisions
+* Gestion du temps
+* Audio
+* Architecture de projet
+* Optimisation
+
+Chaque projet introduit de nouveaux concepts et mécaniques afin de développer une compréhension solide du développement de jeux modernes.
+
+---
+
+## 📚 Parcours d'apprentissage
+
+### 1. Fondamentaux du C++
+
+* Variables et types
+* Conditions et boucles
+* Fonctions
+* Tableaux et vecteurs
+* Pointeurs et références
+* Classes et objets
+* Héritage
+* Polymorphisme
+* Gestion dynamique de la mémoire
+* STL
+
+---
+
+### 2. Introduction à SFML
+
+* Création d'une fenêtre
+* Gestion des événements clavier et souris
+* Dessin de formes
+* Sprites et textures
+* Texte et polices
+* Sons et musique
+* Gestion du temps avec `sf::Clock`
+* Vue et caméra
+
+---
+
+## 🚀 Projets réalisés
+
+### 🌲 Timber
+
+Un jeu d'arcade où le joueur doit couper un arbre le plus rapidement possible tout en évitant les branches.
+
+#### Concepts abordés
+
+* Boucle de jeu
+* Gestion des entrées clavier
+* Sprites
+* Détection de collisions
+* Sons et effets visuels
+* Gestion du score
+
+---
+
+### 🏓 Pong
+
+Implémentation du célèbre jeu Pong.
+
+#### Concepts abordés
+
+* Mouvement des objets
+* Physique simple
+* Collisions
+* Gestion des scores
+* Architecture orientée objet
+
+---
+
+### 🧟 Zombie Arena
+
+Jeu de survie face à des vagues de zombies.
+
+#### Concepts abordés
+
+* Gestion de multiples entités
+* IA simple
+* Spawn dynamique
+* Système de vagues
+* Gestion de la caméra
+* Optimisation des performances
+
+---
+
+### 🧩 Thomas Was Late
+
+Plateforme 2D inspirée du jeu original.
+
+#### Concepts abordés
+
+* Gravité
+* Physique de plateforme
+* Gestion des niveaux
+* Collisions avancées
+* Animations
+* Caméra dynamique
+
+---
+
+### 🚀 Space Invaders
+
+Version moderne du classique Space Invaders.
+
+#### Concepts abordés
+
+* Gestion de projectiles
+* Ennemis multiples
+* Système de vagues
+* Particules
+* Gestion des états du jeu
+
+---
+
+### 🎯 Projets supplémentaires
+
+* Asteroids
+* Breakout
+* Top-down Shooter
+* Tower Defense
+* RPG 2D
+* Platformer Engine
+
+---
+
+## 🛠️ Technologies utilisées
+
+### Langage
+
+* C++17 / C++20
+
+### Bibliothèque graphique
+
+* SFML
+
+### Outils
+
+* CMake
+* Visual Studio
+* VS Code
+* GDB
+* Git
+
+---
+
+## 📂 Structure du dépôt
+
+```text
+.
+├── cpp_basics/
+├── sfml_introduction/
+├── timber/
+├── pong/
+├── zombie_arena/
+├── thomas_was_late/
+├── space_invaders/
+├── assets/
+├── docs/
+└── README.md
+```
+
+---
+
+## ⚙️ Installation
+
+### Cloner le dépôt
+
+```bash
+
+git clone https://github.com/<b-kolani>/CPP_GAME_PROGRAMMING.git
+cd CPP_GAME_PROGRAMMING.git
+```
+
+### Installer SFML
+Le depot contient deja la librairie SFML.
+Consultez la documentation officielle de SFML pour votre système d'exploitation.
+
+### Compiler
+
+Exemple avec CMake :
+
+```bash
+mkdir build
+cd build
+cmake ..
+make
+```
+
+---
+
+## 🎓 Compétences acquises
+
+À travers ces projets, vous apprendrez :
+
+* Les bases solides du C++
+* La programmation orientée objet
+* La conception de moteurs de jeu simples
+* Les mathématiques appliquées aux jeux vidéo
+* Les systèmes de collision
+* Les animations
+* Les systèmes de particules
+* L'intelligence artificielle basique
+* Les bonnes pratiques de développement
+
+---
+
+## 📖 Ressources
+
+* Beginning C++ Game Programming Second Edition (www.packt.com) de John     Horton
+* Documentation SFML
+* C++ Reference
+* Game Programming Patterns
+* Effective Modern C++
+
+---
+
+## 🎯 Objectif du dépôt
+
+Ce dépôt sert à :
+
+* Apprendre le développement de jeux en C++
+* Comprendre les principes fondamentaux des moteurs de jeu
+* Construire un portfolio de projets
+* Préparer des projets plus avancés avec SDL, OpenGL, Unreal Engine ou Unity
+
+---
+
+## 📄 Licence
+
+Projet éducatif destiné à l'apprentissage du développement de jeux vidéo avec C++ et SFML.
