@@ -125,7 +125,8 @@ int main()
 		// 		window.close();
 		// 	}
 		// }
-
+		// Same thing as the commented code above
+		while (const std::optional event = window.pollEvent());
 		if (Keyboard::isKeyPressed(Keyboard::Key::Escape))
 		{
 			window.close();
@@ -167,7 +168,7 @@ int main()
 
 				// Change the message shown to the player
 				messageText.setString("Out of time!!");
-				// Rposition the text based on its new size
+				// Reposition the text based on its new size
 				FloatRect textRect = messageText.getLocalBounds();
 				messageText.setOrigin(Vector2f(
 					textRect.position.x + textRect.size.x / 2.0f,
@@ -222,7 +223,7 @@ int main()
 				spriteCloud1.setPosition({spriteCloud1.getPosition().x +
 											  (cloud1Speed * dt.asSeconds()),
 										  spriteCloud1.getPosition().y});
-				// Has thec cloud reached the right hand edge of the screen?
+				// Has the cloud reached the right hand edge of the screen?
 				if (spriteCloud1.getPosition().x > 1920)
 				{
 					// Set it up ready to be a whole new cloud the next frame
@@ -282,7 +283,7 @@ int main()
 				}
 			}
 
-			// Upadte the score text
+			// Update the score text
 			std::stringstream ss;
 			ss << "Score = " << score;
 			scoreText.setString(ss.str());

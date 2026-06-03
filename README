@@ -179,7 +179,7 @@ Version moderne du classique Space Invaders.
 
 ```bash
 
-git clone https://github.com/<b-kolani>/CPP_GAME_PROGRAMMING.git
+git clone https://github.com/b-kolani/CPP_GAME_PROGRAMMING.git
 cd CPP_GAME_PROGRAMMING.git
 Exemple:
 cd Timber
