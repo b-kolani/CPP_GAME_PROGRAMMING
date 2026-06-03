@@ -2,9 +2,26 @@
 #include "../../SFML/include/SFML/Graphics.hpp"
 // #include <iostream>
 #include <sstream>
+#include <math.h>
 
 // Make the code easier to type "using namespace"
 using namespace sf;
+
+// Function declaration
+void updateBranches(int seed);
+
+const int NUM_BRANCHES = 6;
+Sprite branches[NUM_BRANCHES];
+
+// Where is palyer/branch ?
+// LEFT or RIGHT
+enum class side
+{
+	LEFT,
+	RIGHT,
+	NONE
+};
+side branchPositions[NUM_BRANCHES];
 
 // This where our game starts from
 int main()
@@ -109,6 +126,22 @@ int main()
 						   textRect.position.y + textRect.size.y / 2.0f});
 	messageText.setPosition({1920 / 2.0f, 1080 / 2.0f});
 	scoreText.setPosition({20, 20});
+
+	// Prepare 6 branches
+	Texture textureBranch;
+	if (!textureBranch.loadFromFile("./graphics/branch.png"))
+		return -1;
+
+	// Set the texture for each branch sprite
+	for (int i = 0; i < NUM_BRANCHES; i++)
+	{
+		branches[i].setTexture(textureBranch);
+		branches[i].setPosition({-2000, -2000});
+
+		// Set the sprite's origin to dead centre
+		// We can then spin it round without changing its position
+		branches[i].setOrigin({220, 20});
+	}
 	// The main game loop
 	while (window.isOpen())
 	{
@@ -118,7 +151,7 @@ int main()
 		********************************************
 		*/
 
-		// Handle Events to avoid the Not responding message of 
+		// Handle Events to avoid the Not responding message of
 		// the window
 		// while (const std::optional<Event>event = window.pollEvent()) {
 		// 	if (event->is<Event::Closed>()) {
@@ -126,7 +159,8 @@ int main()
 		// 	}
 		// }
 		// Same thing as the commented code above
-		while (const std::optional event = window.pollEvent());
+		while (const std::optional event = window.pollEvent())
+			;
 		if (Keyboard::isKeyPressed(Keyboard::Key::Escape))
 		{
 			window.close();
@@ -287,6 +321,40 @@ int main()
 			std::stringstream ss;
 			ss << "Score = " << score;
 			scoreText.setString(ss.str());
+
+			// update the branch sprites
+			for (int i = 0; i < NUM_BRANCHES; i++)
+			{
+				float height = i * 150;
+
+				if (branchPositions[i] == side::LEFT)
+				{
+					// Move the sprite to the left side
+					branches[i].setPosition({610, height});
+
+					// Flip the sprite round the other way
+					Angle a = degrees(180.f);
+					branches[i].setRotation(a);
+				}
+				else if (branchPositions[i] == side::RIGHT)
+				{
+					// Move the sprite to the right side
+					branches[i].setPosition({1330, height});
+
+					// Set the sprite rotation to normal
+					// By default the branch sprite hangs
+					// to the right side but we did a rotation of 0 degree
+					// by precaution if previously a rotation 
+					// was applied to the sprite
+					branches[i].setRotation(degrees(0));
+				}
+				else
+				{
+					// Hide the branch
+					// because the side has the NONE value
+					branches[i].setPosition({3000, height});
+				}
+			}
 		}
 		/*
 		********************************************
