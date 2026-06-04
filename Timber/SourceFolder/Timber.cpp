@@ -1,8 +1,9 @@
 // Include important libraries here
 #include "../../SFML/include/SFML/Graphics.hpp"
-// #include <iostream>
+#include <iostream>
 #include <sstream>
 #include <math.h>
+#include <vector>
 
 // Make the code easier to type "using namespace"
 using namespace sf;
@@ -11,7 +12,21 @@ using namespace sf;
 void updateBranches(int seed);
 
 const int NUM_BRANCHES = 6;
-Sprite branches[NUM_BRANCHES];
+// Here we need to create a temporary texture
+// because Sprite class has no default constructor
+// only parameterized constructors. Another
+// alterative is to used vector and call
+// emplace_back to construct each element
+// directly in the container.
+Texture tempTex;
+Sprite branches[NUM_BRANCHES] = {
+	Sprite(tempTex),
+	Sprite(tempTex),
+	Sprite(tempTex),
+	Sprite(tempTex),
+	Sprite(tempTex),
+	Sprite(tempTex)};
+// std::vector<Sprite> branches;
 
 // Where is palyer/branch ?
 // LEFT or RIGHT
@@ -26,6 +41,7 @@ side branchPositions[NUM_BRANCHES];
 // This where our game starts from
 int main()
 {
+	// std::cout << static_cast<int>(branchPositions[3]) << std::endl;
 	//  Create a video mode object
 	VideoMode vm({1920, 1080});
 
@@ -129,19 +145,36 @@ int main()
 
 	// Prepare 6 branches
 	Texture textureBranch;
-	if (!textureBranch.loadFromFile("./graphics/branch.png"))
+	if (!textureBranch.loadFromFile("graphics/branch.png"))
 		return -1;
 
+	// Sprite	tempBranch(textureBranch);
+	// tempBranch.setPosition({1330, 40});
 	// Set the texture for each branch sprite
 	for (int i = 0; i < NUM_BRANCHES; i++)
 	{
-		branches[i].setTexture(textureBranch);
+		// Without the true as second argument the sprite
+		// will keep the initial empty texture used
+		// previously to construct each element
+		// of the array and in thi case the branch
+		// sprite won't appear. By setting true
+		// the sprite will use reset the size of the former
+		// and use the new texture.
+		branches[i].setTexture(textureBranch, true);
+		// branches.emplace_back(textureBranch);
 		branches[i].setPosition({-2000, -2000});
 
 		// Set the sprite's origin to dead centre
 		// We can then spin it round without changing its position
 		branches[i].setOrigin({220, 20});
 	}
+
+	// updateBranches(1);
+	// updateBranches(2);
+	// updateBranches(3);
+	// updateBranches(4);
+	// updateBranches(5);
+
 	// The main game loop
 	while (window.isOpen())
 	{
@@ -344,7 +377,7 @@ int main()
 					// Set the sprite rotation to normal
 					// By default the branch sprite hangs
 					// to the right side but we did a rotation of 0 degree
-					// by precaution if previously a rotation 
+					// by precaution if previously a rotation
 					// was applied to the sprite
 					branches[i].setRotation(degrees(0));
 				}
@@ -355,7 +388,7 @@ int main()
 					branches[i].setPosition({3000, height});
 				}
 			}
-		}
+		} // End !paused
 		/*
 		********************************************
 		Draw the scene
@@ -372,6 +405,18 @@ int main()
 		window.draw(spriteCloud1);
 		window.draw(spriteCloud2);
 		window.draw(spriteCloud3);
+
+		// Draw branches
+		// std::cout << "x:" << branches[0].getPosition().x 
+		// 		  << ", y:" << branches[0].getPosition().y
+		// 	      << std::endl;
+		// window.draw(branches[0]);
+		// window.draw(branches[1]);
+		// window.draw(branches[2]);
+		// window.draw(branches[3]);
+		// window.draw(branches[4]);
+		// window.draw(branches[5]);
+		// window.draw(tempBranch);
 
 		// Draw the tree
 		window.draw(spriteTree);
@@ -396,4 +441,32 @@ int main()
 	}
 
 	return 0;
+}
+
+// Function definition
+void updateBranches(int seed)
+{
+	// Move all the branches down one place
+	for (int j = NUM_BRANCHES - 1; j > 0; j--)
+	{
+		branchPositions[j] = branchPositions[j - 1];
+	}
+
+	// Spawn a new branch at position 0
+	// LEFT, RIGHT or NONE
+	srand((unsigned int)time(0) + seed);
+	int r = rand() % 5;
+
+	switch (r)
+	{
+	case 0:
+		branchPositions[0] = side::LEFT;
+		break;
+	case 1:
+		branchPositions[0] = side::RIGHT;
+		break;
+	default:
+		branchPositions[0] = side::NONE;
+		break;
+	}
 }
