@@ -25,7 +25,8 @@ Sprite branches[NUM_BRANCHES] = {
 	Sprite(tempTex),
 	Sprite(tempTex),
 	Sprite(tempTex),
-	Sprite(tempTex)};
+	Sprite(tempTex)
+};
 // std::vector<Sprite> branches;
 
 // Where is palyer/branch ?
@@ -192,8 +193,7 @@ int main()
 		// 	}
 		// }
 		// Same thing as the commented code above
-		while (const std::optional event = window.pollEvent())
-			;
+		while (const std::optional event = window.pollEvent());
 		if (Keyboard::isKeyPressed(Keyboard::Key::Escape))
 		{
 			window.close();
