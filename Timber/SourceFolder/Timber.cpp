@@ -176,6 +176,49 @@ int main()
 	// updateBranches(4);
 	// updateBranches(5);
 
+	// Prepare the player 
+	Texture	texturePlayer;
+	if (!texturePlayer.loadFromFile("graphics/player.png"))
+		return -1;
+	Sprite	spritePlayer(texturePlayer);
+	spritePlayer.setPosition(Vector2f(580.f, 720.f));
+
+	// The player starts on the left 
+	side	playerSide = side::LEFT;
+
+	// Prepare the gravestone 
+	Texture	textureRIP;
+	if (!textureRIP.loadFromFile("graphics/rip.png"))
+		return -1;
+	Sprite	spriteRIP(textureRIP);
+	spriteRIP.setPosition({600.f, 860.f});
+
+	// Prepare the axe 
+	Texture	textureAxe;
+	if (!textureAxe.loadFromFile("graphics/axe.png"))
+		return -1;
+	Sprite	spriteAxe(textureAxe);
+	spriteAxe.setPosition(Vector2f(700.f, 830.f));
+
+	// Line the axe up with the tree 
+	const float	AXE_POSITION_LEFT = 700.f;
+	const float	AXE_POSITION_RIGHT = 1075.f;
+
+	//  Prepare the flying log 
+	Texture	textureLog;
+	if (!textureLog.loadFromFile("graphics/log.png"))
+		return -1;
+	Sprite	spriteLog(textureLog);
+	spriteLog.setPosition(Vector2f(810.f, 720.f));
+	
+	// Some other useful log related variables
+	bool	logActive = false;
+	float	logSpeedX = 1000.f;
+	float	logSpeedY = -1500.f;
+
+	// Control the player input
+	bool acceptInput = false;
+
 	// The main game loop
 	while (window.isOpen())
 	{
@@ -207,6 +250,40 @@ int main()
 			// Reset the score and time
 			score = 0;
 			timeRemaining = 6;
+
+			// Make all the branches disappear
+			// starting in the second position
+			for (int i = 1; i < NUM_BRANCHES; i++) {
+				branchPositions[i] = side::NONE;
+			}
+
+			// Make sure the gravestone is hidden
+			spriteRIP.setPosition(Vector2f(675.f, 2000.f));
+
+			// Move the player into position
+			spritePlayer.setPosition({580.f, 620.f});
+
+			acceptInput = true;
+		}
+
+		// Wrap the palyer controls to 
+		// Make surr we are accepting input 
+		if (acceptInput) {
+			// ...
+			// First handle pressing the right cursor key
+			if () {
+				// Make sure the palyer is on the right
+
+				// Add to the amount of time remaining
+
+				// Update the branches
+
+				// Set the log flying to the left 
+
+
+			}
+
+			// Handle the left cursor key 
 		}
 		/*
 		********************************************
@@ -421,7 +498,19 @@ int main()
 		// Draw the tree
 		window.draw(spriteTree);
 
-		// Draw the insect
+		// Draw the player
+		window.draw(spritePlayer);
+
+		// Draw the axe 
+		window.draw(spriteAxe);
+
+		// Draw the flying log
+		window.draw(spriteLog);
+
+		// Draw the gravestone 
+		window.draw(spriteRIP);
+
+		// Draw the bee
 		window.draw(spriteBee);
 
 		// Draw our score text
