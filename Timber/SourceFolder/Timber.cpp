@@ -25,8 +25,7 @@ Sprite branches[NUM_BRANCHES] = {
 	Sprite(tempTex),
 	Sprite(tempTex),
 	Sprite(tempTex),
-	Sprite(tempTex)
-};
+	Sprite(tempTex)};
 // std::vector<Sprite> branches;
 
 // Where is palyer/branch ?
@@ -176,45 +175,45 @@ int main()
 	// updateBranches(4);
 	// updateBranches(5);
 
-	// Prepare the player 
-	Texture	texturePlayer;
+	// Prepare the player
+	Texture texturePlayer;
 	if (!texturePlayer.loadFromFile("graphics/player.png"))
 		return -1;
-	Sprite	spritePlayer(texturePlayer);
+	Sprite spritePlayer(texturePlayer);
 	spritePlayer.setPosition(Vector2f(580.f, 720.f));
 
-	// The player starts on the left 
-	side	playerSide = side::LEFT;
+	// The player starts on the left
+	side playerSide = side::LEFT;
 
-	// Prepare the gravestone 
-	Texture	textureRIP;
+	// Prepare the gravestone
+	Texture textureRIP;
 	if (!textureRIP.loadFromFile("graphics/rip.png"))
 		return -1;
-	Sprite	spriteRIP(textureRIP);
+	Sprite spriteRIP(textureRIP);
 	spriteRIP.setPosition({600.f, 860.f});
 
-	// Prepare the axe 
-	Texture	textureAxe;
+	// Prepare the axe
+	Texture textureAxe;
 	if (!textureAxe.loadFromFile("graphics/axe.png"))
 		return -1;
-	Sprite	spriteAxe(textureAxe);
+	Sprite spriteAxe(textureAxe);
 	spriteAxe.setPosition(Vector2f(700.f, 830.f));
 
-	// Line the axe up with the tree 
-	const float	AXE_POSITION_LEFT = 700.f;
-	const float	AXE_POSITION_RIGHT = 1075.f;
+	// Line the axe up with the tree
+	const float AXE_POSITION_LEFT = 700.f;
+	const float AXE_POSITION_RIGHT = 1075.f;
 
-	//  Prepare the flying log 
-	Texture	textureLog;
+	//  Prepare the flying log
+	Texture textureLog;
 	if (!textureLog.loadFromFile("graphics/log.png"))
 		return -1;
-	Sprite	spriteLog(textureLog);
+	Sprite spriteLog(textureLog);
 	spriteLog.setPosition(Vector2f(810.f, 720.f));
-	
+
 	// Some other useful log related variables
-	bool	logActive = false;
-	float	logSpeedX = 1000.f;
-	float	logSpeedY = -1500.f;
+	bool logActive = false;
+	float logSpeedX = 1000.f;
+	float logSpeedY = -1500.f;
 
 	// Control the player input
 	bool acceptInput = false;
@@ -236,7 +235,8 @@ int main()
 		// 	}
 		// }
 		// Same thing as the commented code above
-		while (const std::optional event = window.pollEvent());
+		while (const std::optional event = window.pollEvent())
+			;
 		if (Keyboard::isKeyPressed(Keyboard::Key::Escape))
 		{
 			window.close();
@@ -253,7 +253,8 @@ int main()
 
 			// Make all the branches disappear
 			// starting in the second position
-			for (int i = 1; i < NUM_BRANCHES; i++) {
+			for (int i = 1; i < NUM_BRANCHES; i++)
+			{
 				branchPositions[i] = side::NONE;
 			}
 
@@ -266,24 +267,61 @@ int main()
 			acceptInput = true;
 		}
 
-		// Wrap the palyer controls to 
-		// Make surr we are accepting input 
-		if (acceptInput) {
+		// Wrap the palyer controls to
+		// Make surr we are accepting input
+		if (acceptInput)
+		{
 			// ...
+
 			// First handle pressing the right cursor key
-			if () {
+			if (Keyboard::isKeyPressed(Keyboard::Key::Right))
+			{
 				// Make sure the palyer is on the right
+				playerSide = side::RIGHT;
+				score++;
 
 				// Add to the amount of time remaining
+				timeRemaining += (2 / score) + .15f;
+
+				spriteAxe.setPosition({AXE_POSITION_RIGHT,
+									   spriteAxe.getPosition().y});
+				spritePlayer.setPosition({1200, 720});
 
 				// Update the branches
+				updateBranches(score);
 
-				// Set the log flying to the left 
+				// Set the log flying to the left
+				spriteLog.setPosition(Vector2f(810, 720));
+				logSpeedX = -5000;
 
+				logActive = true;
 
+				acceptInput = false;
 			}
 
-			// Handle the left cursor key 
+			// Handle the left cursor key
+			if (Keyboard::isKeyPressed(Keyboard::Key::Left))
+			{
+				// Make sure the player is on the left
+				playerSide = side::LEFT;
+				score++;
+
+				// Add the amount of time remaining
+				timeRemaining += (2 / score) + .15f;
+				spriteAxe.setPosition(Vector2f(AXE_POSITION_LEFT,
+											   spriteAxe.getPosition().y));
+				spritePlayer.setPosition({580, 720});
+
+				// Update the branches
+				updateBranches(score);
+
+				// Set the log flying to the left
+				spriteLog.setPosition({810, 720});
+				logSpeedX = 5000;
+				logActive = true;
+
+				acceptInput = false;
+			}
 		}
 		/*
 		********************************************
@@ -484,7 +522,7 @@ int main()
 		window.draw(spriteCloud3);
 
 		// Draw branches
-		// std::cout << "x:" << branches[0].getPosition().x 
+		// std::cout << "x:" << branches[0].getPosition().x
 		// 		  << ", y:" << branches[0].getPosition().y
 		// 	      << std::endl;
 		// window.draw(branches[0]);
@@ -501,13 +539,13 @@ int main()
 		// Draw the player
 		window.draw(spritePlayer);
 
-		// Draw the axe 
+		// Draw the axe
 		window.draw(spriteAxe);
 
 		// Draw the flying log
 		window.draw(spriteLog);
 
-		// Draw the gravestone 
+		// Draw the gravestone
 		window.draw(spriteRIP);
 
 		// Draw the bee
