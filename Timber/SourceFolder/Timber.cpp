@@ -226,7 +226,18 @@ int main()
 		Handle the players input
 		********************************************
 		*/
+		while (const std::optional event = window.pollEvent())
+		{
+			if (event->is<Event::KeyReleased>() && !paused)
+			{
+				// Listen for key presses again
+				acceptInput = true;
 
+				// hide the axe
+				spriteAxe.setPosition({2000,
+									   spriteAxe.getPosition().y});
+			}
+		}
 		// Handle Events to avoid the Not responding message of
 		// the window
 		// while (const std::optional<Event>event = window.pollEvent()) {
@@ -235,8 +246,8 @@ int main()
 		// 	}
 		// }
 		// Same thing as the commented code above
-		while (const std::optional event = window.pollEvent())
-			;
+		// while (const std::optional event = window.pollEvent())
+		// 	;
 		if (Keyboard::isKeyPressed(Keyboard::Key::Escape))
 		{
 			window.close();
@@ -503,6 +514,45 @@ int main()
 					branches[i].setPosition({3000, height});
 				}
 			}
+
+			// Handle a flying log
+			if (logActive)
+			{
+				spriteLog.setPosition({spriteLog.getPosition().x + (logSpeedX * dt.asSeconds()),
+									   spriteLog.getPosition().y + (logSpeedY * dt.asSeconds())});
+
+				// Has the log reached the right hand edge ?
+				if (spriteLog.getPosition().x < -100 ||
+					spriteLog.getPosition().x > 2000)
+				{
+					// Set it up ready to be a whole new log next frame
+					logActive = false;
+					spriteLog.setPosition({810.f, 720.f});
+				}
+			}
+
+			// has the player been squished by a branch ?
+			if (branchPositions[5] == side::LEFT)
+			{
+
+				// death
+				paused = true;
+
+				// Draw the gravestone (525, 760)
+				spriteRIP.setPosition({525,
+									   760});
+
+				// Change the text of the message to "SQUISHED!!"
+				messageText.setString("SQUISHED !!");
+
+				// Center it on the screen
+				FloatRect textRect = messageText.getLocalBounds();
+
+				messageText.setOrigin({textRect.position.x + (textRect.size.x / 2.0f),
+									   textRect.position.y + (textRect.size.y / 2.f)});
+					
+				messageText.setPosition({1920 / 2.f, 1080 / 2.f});
+			}
 		} // End !paused
 		/*
 		********************************************
@@ -525,12 +575,12 @@ int main()
 		// std::cout << "x:" << branches[0].getPosition().x
 		// 		  << ", y:" << branches[0].getPosition().y
 		// 	      << std::endl;
-		// window.draw(branches[0]);
-		// window.draw(branches[1]);
-		// window.draw(branches[2]);
-		// window.draw(branches[3]);
-		// window.draw(branches[4]);
-		// window.draw(branches[5]);
+		window.draw(branches[0]);
+		window.draw(branches[1]);
+		window.draw(branches[2]);
+		window.draw(branches[3]);
+		window.draw(branches[4]);
+		window.draw(branches[5]);
 		// window.draw(tempBranch);
 
 		// Draw the tree
