@@ -107,6 +107,7 @@ int main()
 
 	// Track wether the game is running or not
 	bool paused = true;
+	bool playerDied = false;
 
 	// Time bar
 	RectangleShape timeBar;
@@ -177,7 +178,7 @@ int main()
 
 	// Prepare the player
 	Texture texturePlayer;
-	if (!texturePlayer.loadFromFile("graphics/player.png"))
+	if (!texturePlayer.loadFromFile("./graphics/player.png"))
 		return -1;
 	Sprite spritePlayer(texturePlayer);
 	spritePlayer.setPosition(Vector2f(580.f, 720.f));
@@ -532,11 +533,13 @@ int main()
 			}
 
 			// has the player been squished by a branch ?
-			if (branchPositions[5] == side::LEFT)
+			if (branchPositions[5] == playerSide)
 			{
 
 				// death
 				paused = true;
+				acceptInput = false;
+				playerDied = true;
 
 				// Draw the gravestone (525, 760)
 				spriteRIP.setPosition({525,
@@ -550,7 +553,7 @@ int main()
 
 				messageText.setOrigin({textRect.position.x + (textRect.size.x / 2.0f),
 									   textRect.position.y + (textRect.size.y / 2.f)});
-					
+
 				messageText.setPosition({1920 / 2.f, 1080 / 2.f});
 			}
 		} // End !paused
@@ -587,7 +590,8 @@ int main()
 		window.draw(spriteTree);
 
 		// Draw the player
-		window.draw(spritePlayer);
+		if (!playerDied)
+			window.draw(spritePlayer);
 
 		// Draw the axe
 		window.draw(spriteAxe);
@@ -596,7 +600,8 @@ int main()
 		window.draw(spriteLog);
 
 		// Draw the gravestone
-		window.draw(spriteRIP);
+		if (playerDied)
+			window.draw(spriteRIP);
 
 		// Draw the bee
 		window.draw(spriteBee);
