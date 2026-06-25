@@ -6,7 +6,9 @@ CFLAGS =
 SFML_INC = -I ../SFML/include
 # SFML_LIB = -L ../SFML/lib -Wl,-rpath,'$$ORIGIN/SFML/lib' -lsfml-graphics -lsfml-window -lsfml-system
 
+# SFML_LIB = -L ../SFML/lib -Wl,-rpath,'$$ORIGIN/../SFML/lib' -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 SFML_LIB = -L ../SFML/lib -Wl,-rpath,'$$ORIGIN/../SFML/lib' -lsfml-graphics -lsfml-window -lsfml-system
+
 
 # SFML_LIB = -L ../SFML/lib -lsfml-graphics -lsfml-window -lsfml-system
 

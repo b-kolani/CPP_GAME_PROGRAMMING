@@ -1,5 +1,6 @@
 // Include important libraries here
 #include "../../SFML/include/SFML/Graphics.hpp"
+// #include "../../SFML/include/SFML/Audio.hpp"
 #include <iostream>
 #include <sstream>
 #include <math.h>
@@ -123,6 +124,7 @@ int main()
 
 	// Draw some text
 	int score = 0;
+	int oldScore = 0;
 
 	// We need to choose a font
 	Font font("fonts/KOMIKAP_.ttf");
@@ -131,18 +133,43 @@ int main()
 	// And assign the actual message
 	// Make it really big
 	Text scoreText(font, "Score = 0", 75);
+	Text fpsText(font, "FPS = 0", 75);
 	Text messageText(font, "Press Enter to start!", 100);
 
 	// Choose a color
 	scoreText.setFillColor(Color::White);
+	scoreText.setOutlineThickness(1.f);
 	messageText.setFillColor(Color::White);
+	messageText.setOutlineThickness(1);
+	fpsText.setFillColor(Color::White);
+	fpsText.setOutlineThickness(1.f);
 
 	// Position the text
 	FloatRect textRect = messageText.getLocalBounds();
 	messageText.setOrigin({textRect.position.x + textRect.size.x / 2.0f,
 						   textRect.position.y + textRect.size.y / 2.0f});
 	messageText.setPosition({1920 / 2.0f, 1080 / 2.0f});
-	scoreText.setPosition({20, 20});
+
+	FloatRect scoreRect = scoreText.getLocalBounds();
+	scoreText.setOrigin({scoreRect.position.x + scoreRect.size.x / 2.0f,
+						 scoreRect.position.y + scoreRect.size.y / 2.f});
+	RectangleShape scoreRectShape({scoreRect.size.x + 20.0f, scoreRect.size.y + 20.f});
+	scoreRectShape.setPosition(Vector2f(10.f, 20.f));
+	scoreRectShape.setFillColor(Color(0, 0, 0, 150));
+	FloatRect rectShapeBounds = scoreRectShape.getGlobalBounds();
+	std::cout << rectShapeBounds.position.x + rectShapeBounds.size.x / 2.f << std::endl;
+	scoreText.setPosition({rectShapeBounds.position.x + rectShapeBounds.size.x / 2.f,
+						   rectShapeBounds.position.y + rectShapeBounds.size.y / 2.f});
+
+	FloatRect fpsRect = fpsText.getLocalBounds();
+	fpsText.setOrigin(Vector2f(fpsRect.position.x + fpsRect.size.x / 2.f,
+							   fpsRect.position.y + fpsRect.size.y / 2.0f));
+	RectangleShape fpsRectShape({520, fpsRect.size.y + 20.f});
+	fpsRectShape.setPosition(Vector2f(1400.f, 20.f));
+	fpsRectShape.setFillColor(Color(0, 0, 0, 150));
+	FloatRect fpsRectShapeBounds = fpsRectShape.getGlobalBounds();
+	fpsText.setPosition({fpsRectShapeBounds.position.x + fpsRectShapeBounds.size.x / 3.0f,
+						 fpsRectShapeBounds.position.y + fpsRectShapeBounds.size.y / 2.0f});
 
 	// Prepare 6 branches
 	Texture textureBranch;
@@ -219,9 +246,40 @@ int main()
 	// Control the player input
 	bool acceptInput = false;
 
+	// Prepare the sounds
+	// The player chopping sound
+	// SoundBuffer chopbuffer;
+	// if (!chopbuffer.loadFromFile("sound/chop.wav"))
+	// 	return -1;
+	// Sound chop(chopbuffer);
+
+	// The player has met his end under a branch
+	// SoundBuffer deathBuffer;
+	// if (!deathBuffer.loadFromFile("sound/death.wav"))
+	// 	return -1;
+	// Sound death(deathBuffer);
+
+	// Out of time
+	// SoundBuffer ootBuffer;
+	// if (!ootBuffer.loadFromFile("sound/out_of_time.wav"))
+	// 	return -1;
+	// Sound outOfTime(ootBuffer);
+
+	// Measure the FPS
+	int fps = 0;
 	// The main game loop
 	while (window.isOpen())
 	{
+		fps++;
+		// Display the FPS
+		if (fps >= 100)
+		{
+			std::stringstream ss;
+			ss << "FPS = " << fps;
+			fpsText.setString(ss.str());
+		}
+		oldScore = score;
+
 		/*
 		********************************************
 		Handle the players input
@@ -309,6 +367,9 @@ int main()
 				logActive = true;
 
 				acceptInput = false;
+
+				// Play a chop sound
+				// chop.play();
 			}
 
 			// Handle the left cursor key
@@ -333,6 +394,9 @@ int main()
 				logActive = true;
 
 				acceptInput = false;
+
+				// Play a chop sound
+				// chop.play();
 			}
 		}
 		/*
@@ -364,11 +428,15 @@ int main()
 				messageText.setString("Out of time!!");
 				// Reposition the text based on its new size
 				FloatRect textRect = messageText.getLocalBounds();
+
 				messageText.setOrigin(Vector2f(
 					textRect.position.x + textRect.size.x / 2.0f,
 					textRect.position.y + textRect.size.y / 2.0f));
 
 				messageText.setPosition(Vector2f(1920 / 2.0f, 1080 / 2.0f));
+
+				// Play the out of time sound
+				// outOfTime.play();
 			}
 			// Setup the bee
 			if (!beeActive)
@@ -478,9 +546,17 @@ int main()
 			}
 
 			// Update the score text
-			std::stringstream ss;
-			ss << "Score = " << score;
-			scoreText.setString(ss.str());
+			// In a loop which runs multiple time for exmaple at 1 000 FPS
+			// This code cost a lot to the processor to convert
+			// an integer or any other type into text or string
+			// so to improve the code we can run it occasionaly. Only
+			// execute it when the score changed.
+			if (score != oldScore)
+			{
+				std::stringstream ss;
+				ss << "Score = " << score;
+				scoreText.setString(ss.str());
+			}
 
 			// update the branch sprites
 			for (int i = 0; i < NUM_BRANCHES; i++)
@@ -555,6 +631,9 @@ int main()
 									   textRect.position.y + (textRect.size.y / 2.f)});
 
 				messageText.setPosition({1920 / 2.f, 1080 / 2.f});
+
+				// Play the death sound
+				// death.play();
 			}
 		} // End !paused
 		/*
@@ -578,12 +657,9 @@ int main()
 		// std::cout << "x:" << branches[0].getPosition().x
 		// 		  << ", y:" << branches[0].getPosition().y
 		// 	      << std::endl;
-		window.draw(branches[0]);
-		window.draw(branches[1]);
-		window.draw(branches[2]);
-		window.draw(branches[3]);
-		window.draw(branches[4]);
-		window.draw(branches[5]);
+
+		for (int i = 0; i < NUM_BRANCHES; i++)
+			window.draw(branches[i]);
 		// window.draw(tempBranch);
 
 		// Draw the tree
@@ -607,7 +683,15 @@ int main()
 		window.draw(spriteBee);
 
 		// Draw our score text
+		// along with its rectangle shape behind
+		// as background
+		window.draw(scoreRectShape);
 		window.draw(scoreText);
+
+		// Draw our FPS text\
+		using winow.draw()//
+		window.draw(fpsRectShape);
+		window.draw(fpsText);
 
 		// Draw the time bar
 		window.draw(timeBar);
